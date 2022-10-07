@@ -10,7 +10,8 @@ version: "2"
 
 services:
   alfresco:
-    image: alfresco/alfresco-content-repository-community:7.3.0-M2
+#    image: alfresco/alfresco-content-repository-community:7.3.0-M2
+    image: alfresco-content-repository-community-arm64
     mem_limit: 1900m
     environment:
       JAVA_TOOL_OPTIONS: "
@@ -48,7 +49,8 @@ services:
         "
 
   transform-core-aio:
-    image: alfresco/alfresco-transform-core-aio:2.5.7
+    # image: alfresco/alfresco-transform-core-aio:2.5.7
+    image: alfresco-transform-core-aio-arm64
     mem_limit: 1536m
     environment:
       JAVA_OPTS: " -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80"
@@ -56,7 +58,7 @@ services:
       - "8090:8090"
 
   share:
-    image: alfresco/alfresco-share:7.3.0-M2
+    image: alfresco-share-arm64
     mem_limit: 1g
     environment:
       REPO_HOST: "alfresco"
@@ -70,7 +72,7 @@ services:
         -Dalfresco.protocol=http
         "
 
-  postgres:
+  postgres:    #This has an arm64 image on docker hub - no action needed.
     image: postgres:14.4
     mem_limit: 512m
     environment:
@@ -82,7 +84,7 @@ services:
       - "5432:5432"
 
   solr6:
-    image: alfresco/alfresco-search-services:2.0.3
+    image: alfresco-search-services-arm64
     mem_limit: 2g
     environment:
       # Solr needs to know how to register itself with Alfresco
@@ -97,12 +99,11 @@ services:
       ALFRESCO_SECURE_COMMS: "secret"
       # SHARED SECRET VALUE
       JAVA_TOOL_OPTIONS: "
-          -Dalfresco.secureComms.secret=secret
-      "
+          -Dalfresco.secureComms.secret=secret"
     ports:
       - "8083:8983" # Browser port
 
-  activemq:
+  activemq:  #This has an arm64 image on docker hub - no action needed.
     image: alfresco/alfresco-activemq:5.17.1-jre11-rockylinux8
     mem_limit: 1g
     ports:
@@ -112,13 +113,14 @@ services:
       - "61613:61613" # STOMP
 
   content-app:
-    image: alfresco/alfresco-content-app:2.11.0
+#    image: alfresco/alfresco-content-app:2.11.0
+    image: alfresco-content-app-arm64
     mem_limit: 128m
     environment:
       APP_BASE_SHARE_URL: "http://localhost:8080/aca/#/preview/s"
 
   proxy:
-    image: alfresco/alfresco-acs-nginx:3.4.2
+    image: alfresco-acs-nginx-arm64
     mem_limit: 128m
     environment:
       DISABLE_PROMETHEUS: "true"
